@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 
 import 'catalog_controller.dart';
 import 'data/catalog_repository.dart';
+import 'data/catalog_report.dart';
 import 'models/space_object.dart';
 
 const background = Color(0xFF10151D);
@@ -13,8 +14,9 @@ const muted = Color(0xFF9AA9B9);
 void main() => runApp(const OrbitaApp());
 
 class OrbitaApp extends StatefulWidget {
-  const OrbitaApp({super.key, this.repository});
+  const OrbitaApp({super.key, this.repository, this.initialLab2 = false});
   final CatalogRepository? repository;
+  final bool initialLab2;
 
   @override
   State<OrbitaApp> createState() => _OrbitaAppState();
@@ -72,7 +74,9 @@ class _OrbitaAppState extends State<OrbitaApp> {
         bodyMedium: TextStyle(height: 1.45),
       ),
     ),
-    home: CatalogPage(controller: controller),
+    home: widget.initialLab2
+        ? Lab2Page(controller: controller)
+        : CatalogPage(controller: controller),
   );
 }
 
@@ -149,8 +153,17 @@ class _CatalogPageState extends State<CatalogPage> {
               Text('ПИбд-33', style: TextStyle(fontSize: 12, color: muted)),
             ],
           ),
-          actions: const [
-            Padding(
+          actions: [
+            TextButton(
+              key: const ValueKey('open-lab2'),
+              onPressed: () => Navigator.of(context).push(
+                MaterialPageRoute<void>(
+                  builder: (_) => Lab2Page(controller: controller),
+                ),
+              ),
+              child: const Text('ЛР 2'),
+            ),
+            const Padding(
               padding: EdgeInsets.only(right: 20),
               child: CircleAvatar(
                 backgroundColor: surface,
@@ -375,6 +388,92 @@ class _CatalogPageState extends State<CatalogPage> {
         ),
       );
     },
+  );
+}
+
+class Lab2Page extends StatefulWidget {
+  const Lab2Page({super.key, required this.controller});
+  final CatalogController controller;
+
+  @override
+  State<Lab2Page> createState() => _Lab2PageState();
+}
+
+class _Lab2PageState extends State<Lab2Page> {
+  String query = '';
+
+  @override
+  Widget build(BuildContext context) => Scaffold(
+    appBar: AppBar(title: const Text('Лабораторная 2 · Dart')),
+    body: SafeArea(
+      child: ListenableBuilder(
+        listenable: widget.controller,
+        builder: (context, _) {
+          final controller = widget.controller;
+          return ListView(
+            padding: const EdgeInsets.all(24),
+            children: [
+              const Text(
+                'Каталог небесных тел',
+                style: TextStyle(fontSize: 27, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 8),
+              const Text(
+                'Поиск по каталогу и подсчёт планет-гигантов.',
+                style: TextStyle(color: muted),
+              ),
+              const SizedBox(height: 24),
+              TextField(
+                key: const ValueKey('lab2-search'),
+                onChanged: (value) => setState(() => query = value),
+                decoration: const InputDecoration(
+                  labelText: 'Поиск объекта',
+                  hintText: 'Например, Марс',
+                  prefixIcon: Icon(Icons.search),
+                  border: OutlineInputBorder(),
+                ),
+              ),
+              const SizedBox(height: 24),
+              const Text(
+                'РЕЗУЛЬТАТ ПРОГРАММЫ',
+                style: TextStyle(color: accent, fontSize: 12, letterSpacing: 1),
+              ),
+              const SizedBox(height: 12),
+              if (controller.isLoading)
+                const Center(child: CircularProgressIndicator())
+              else if (controller.error != null)
+                Column(
+                  children: [
+                    Text(controller.error!),
+                    TextButton(
+                      onPressed: controller.load,
+                      child: const Text('Повторить'),
+                    ),
+                  ],
+                )
+              else
+                Container(
+                  padding: const EdgeInsets.all(18),
+                  decoration: BoxDecoration(
+                    color: surface,
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: SelectableText(
+                    buildCatalogReport(controller.objects, query).join('\n\n'),
+                    key: const ValueKey('lab2-output'),
+                    style: const TextStyle(fontSize: 14, height: 1.5),
+                  ),
+                ),
+              const SizedBox(height: 24),
+              const Text(
+                'Код: bin/lab2.dart и lib/data/catalog_report.dart',
+                style: TextStyle(color: muted, fontSize: 12),
+              ),
+            ],
+          );
+        },
+      ),
+    ),
   );
 }
 

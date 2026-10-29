@@ -28,7 +28,7 @@ flutter create --platforms android,web --org ru.ponkin --project-name orbita_lab
 
 1. `SpaceObject` — класс с полями `name`, `type`, `diameterKm` и другими; методы `matches()` и `summary()`.
 2. `SpaceObjectType` — enum для типов небесных тел.
-3. `for` — цикл вывода найденных объектов.
+3. `for` в `lib/data/catalog_report.dart` — цикл формирования строк для найденных объектов.
 4. `List<SpaceObject>` и `List<String>` — типизированные коллекции.
 5. Анонимные функции в `where()` и `map()`.
 6. `Future<List<SpaceObject>>`, `async` и `await` — асинхронная загрузка.
@@ -41,6 +41,8 @@ dart run bin/lab2.dart Марс
 ```
 
 Результат: найден один объект, выведены его название, категория и диаметр 6 779 км.
+
+Для показа на Android в шапке приложения есть кнопка «ЛР 2». Экран и консольная программа используют одну общую функцию `buildCatalogReport`.
 
 ## Лабораторная 3. Список карточек
 

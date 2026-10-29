@@ -39,6 +39,21 @@ void main() {
     expect(tester.takeException(), isNull);
   });
 
+  testWidgets('ЛР 2 показывает результат и поиск использует общую логику', (
+    tester,
+  ) async {
+    await openCatalog(tester);
+    await tester.tap(find.byKey(const ValueKey('open-lab2')));
+    await tester.pumpAndSettle();
+    expect(find.text('Лабораторная 2 · Dart'), findsOneWidget);
+    expect(find.textContaining('Найдено объектов: 6'), findsOneWidget);
+    await tester.enterText(find.byKey(const ValueKey('lab2-search')), 'Марс');
+    await tester.pumpAndSettle();
+    expect(find.textContaining('Найдено объектов: 1'), findsOneWidget);
+    expect(find.textContaining('Марс — Каменистая планета'), findsOneWidget);
+    expect(find.textContaining('Планет-гигантов в выборке: 0'), findsOneWidget);
+  });
+
   testWidgets('Лайк показывает Snackbar, отмена восстанавливает состояние', (
     tester,
   ) async {

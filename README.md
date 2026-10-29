@@ -62,13 +62,15 @@ dart run bin/lab2.dart гигант
 
 Программа асинхронно читает JSON, фильтрует объекты, выводит их характеристики и количество планет-гигантов в выборке.
 
+На эмуляторе тот же результат доступен по кнопке «ЛР 2» в шапке приложения. Для запуска сразу на этом экране используйте `flutter run -d emulator-5554 -t lib/lab2_main.dart`. Экран и консоль используют общую логику `lib/data/catalog_report.dart`.
+
 | Конструкция | Где смотреть | Что делает |
 | --- | --- | --- |
 | Класс с полями и методами | `lib/models/space_object.dart`, `SpaceObject` | Хранит данные, выполняет поиск `matches()` и составляет строку `summary()` |
 | Enum | `SpaceObjectType` в той же модели | Ограничивает тип объекта: rocky, giant, satellite |
-| Цикл | `for (final object in found)` в `bin/lab2.dart` | Печатает каждый найденный объект |
+| Цикл | `for (final object in found)` в `lib/data/catalog_report.dart` | Формирует строку для каждого найденного объекта |
 | Generics | `List<SpaceObject>`, `List<String>` | Задаёт тип элементов коллекции |
-| Anonymous functions | `where((object) => ...)`, `map((item) => ...)` | Фильтрует объекты и преобразует JSON в модели |
+| Anonymous functions | `where((object) => ...)` в `catalog_report.dart`, `map((item) => ...)` в репозитории | Фильтрует объекты и преобразует JSON в модели |
 | Future | `Future<List<SpaceObject>> load()` в `lib/data/catalog_repository.dart` | Возвращает результат асинхронного чтения; вызывается через `await` |
 | extension | `SpaceObjectTypeLabel`, `Kilometers` в модели | Добавляет подпись enum и форматирование диаметра |
 
