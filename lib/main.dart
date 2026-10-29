@@ -472,7 +472,7 @@ class PlanetImage extends StatelessWidget {
       object.image,
       width: double.infinity,
       height: double.infinity,
-      fit: BoxFit.cover,
+      fit: BoxFit.contain,
       semanticLabel: 'Иллюстрация: ${object.name}',
       errorBuilder: (_, error, stack) => const ColoredBox(
         color: surface,
@@ -641,7 +641,7 @@ class DetailPage extends StatelessWidget {
                           ),
                         const SizedBox(height: 12),
                         const Text(
-                          '¹ Приближённые справочные значения. Для гигантов — температура верхних облаков; для Луны — диапазон на поверхности. Изображения — стилизованные иллюстрации.',
+                          '¹ Приближённые справочные значения. Для гигантов — температура верхних облаков; для Луны — диапазон на поверхности.',
                           style: TextStyle(fontSize: 11, color: muted),
                         ),
                         const SizedBox(height: 24),
