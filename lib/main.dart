@@ -397,39 +397,50 @@ class SpaceCard extends StatelessWidget {
           builder: (_) => DetailPage(object: object, controller: controller),
         ),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: Stack(
         children: [
-          Stack(
-            children: [
-              Hero(
-                tag: 'image-${object.id}',
-                child: PlanetImage(object: object),
-              ),
-              Positioned(
-                top: 14,
-                left: 14,
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                    color: background.withValues(alpha: .75),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 11,
-                      vertical: 7,
-                    ),
-                    child: Text(
-                      object.type.label,
-                      style: const TextStyle(fontSize: 10, color: accent),
-                    ),
+          Hero(
+            tag: 'image-${object.id}',
+            child: PlanetImage(object: object),
+          ),
+          const Positioned.fill(
+            child: IgnorePointer(
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [Colors.transparent, Color(0xDD080C12)],
+                    stops: [0.42, 1],
                   ),
                 ),
               ),
-            ],
+            ),
           ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(18, 12, 10, 18),
+          Positioned(
+            top: 14,
+            left: 14,
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                color: background.withValues(alpha: .75),
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 11,
+                  vertical: 7,
+                ),
+                child: Text(
+                  object.type.label,
+                  style: const TextStyle(fontSize: 10, color: accent),
+                ),
+              ),
+            ),
+          ),
+          Positioned(
+            left: 18,
+            right: 10,
+            bottom: 12,
             child: Row(
               children: [
                 Expanded(
@@ -446,7 +457,10 @@ class SpaceCard extends StatelessWidget {
                       const SizedBox(height: 3),
                       Text(
                         object.subtitle,
-                        style: const TextStyle(fontSize: 12, color: muted),
+                        style: const TextStyle(
+                          fontSize: 12,
+                          color: Colors.white70,
+                        ),
                       ),
                     ],
                   ),
@@ -472,7 +486,7 @@ class PlanetImage extends StatelessWidget {
       object.image,
       width: double.infinity,
       height: double.infinity,
-      fit: BoxFit.contain,
+      fit: BoxFit.cover,
       semanticLabel: 'Иллюстрация: ${object.name}',
       errorBuilder: (_, error, stack) => const ColoredBox(
         color: surface,
