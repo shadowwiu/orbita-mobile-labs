@@ -1,7 +1,7 @@
 import 'dart:io';
 
-import '../lib/data/catalog_repository.dart';
-import '../lib/models/space_object.dart';
+import 'package:orbita_labs/data/catalog_repository.dart';
+import 'package:orbita_labs/models/space_object.dart';
 
 /// Запуск из корня проекта: dart run bin/lab2.dart [поисковый запрос].
 Future<void> main(List<String> args) async {

@@ -69,5 +69,6 @@ class SpaceObject {
         .contains(normalized);
   }
 
-  String summary() => '$name — ${type.label}, диаметр: ${diameterKm.kilometers}';
+  String summary() =>
+      '$name — ${type.label}, диаметр: ${diameterKm.kilometers}';
 }

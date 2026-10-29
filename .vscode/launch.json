@@ -1,0 +1,17 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Орбита — Flutter",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart"
+    },
+    {
+      "name": "Лабораторная 2 — Dart",
+      "request": "launch",
+      "type": "dart",
+      "program": "bin/lab2.dart"
+    }
+  ]
+}
